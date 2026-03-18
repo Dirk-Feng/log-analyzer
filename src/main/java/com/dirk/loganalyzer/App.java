@@ -1,24 +1,26 @@
 package com.dirk.loganalyzer;
 
-import com.dirk.loganalyzer.model.LogEntry;
-import com.dirk.loganalyzer.parser.LogParser;
 import com.dirk.loganalyzer.service.LogReader;
+import com.dirk.loganalyzer.parser.LogParser;
 import com.dirk.loganalyzer.model.LogReadResult;
-import java.time.LocalDateTime;
+import com.dirk.loganalyzer.service.LogAnalyzerService;
 
-import java.util.List;
 public class App {
 
     public static void main(String[] args) {
         LogParser parser = new LogParser();
         LogReader reader = new LogReader(parser);
+        LogAnalyzerService analyzerService = new LogAnalyzerService();
+
         LogReadResult result = reader.readFromFile("logs/sample.log");
+        
         System.out.println("success: " + result.getSuccessCount());
         System.out.println("failed: " + result.getFailedCount());
-        
-        for (LogEntry entry: result.getEntries()) {
-            System.out.println(entry);
-        }    
+        long errorcount = analyzerService.countBylevel(result.getEntries(), "ERROR");
+        long infocount = analyzerService.countBylevel(result.getEntries(), "INFO");
+
+        System.out.println("ERROR count: " + errorcount);
+        System.out.println("INFO count: " + infocount);
     }
 }
 
