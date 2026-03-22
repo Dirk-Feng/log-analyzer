@@ -5,6 +5,8 @@ import com.dirk.loganalyzer.parser.LogParser;
 import com.dirk.loganalyzer.model.LogReadResult;
 import com.dirk.loganalyzer.service.LogAnalyzerService;
 
+import java.util.Map;
+
 public class App {
 
     public static void main(String[] args) {
@@ -16,11 +18,13 @@ public class App {
         
         System.out.println("success: " + result.getSuccessCount());
         System.out.println("failed: " + result.getFailedCount());
-        long errorcount = analyzerService.countBylevel(result.getEntries(), "ERROR");
-        long infocount = analyzerService.countBylevel(result.getEntries(), "INFO");
+        Map<String, Long> stats = analyzerService.countALlLevels(result.getEntries());
+        System.out.println("Log level counts: ");
+        for (Map.Entry<String, Long> entry : stats.entrySet())
+        {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }       
 
-        System.out.println("ERROR count: " + errorcount);
-        System.out.println("INFO count: " + infocount);
     }
 }
 
