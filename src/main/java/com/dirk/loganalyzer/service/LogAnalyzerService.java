@@ -2,6 +2,7 @@ package com.dirk.loganalyzer.service;
 
 import com.dirk.loganalyzer.model.LogEntry;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,5 +29,23 @@ public class LogAnalyzerService {
         // 然后统计每个level的数量
     }
 
+    public List<LogEntry> sortByTime(List<LogEntry> entries)
+    {
+        // return entries.stream()
+        // .sorted((e1, e2) -> e1.getTimestamp().compareTo(e2.getTimestamp()))
+        // .toList();
+        
+        // 直接用sorted的重载方法，传入一个Comparator
+        return entries.stream()
+        .sorted(Comparator.comparing(LogEntry::getTimestamp))
+        .toList();
+        // .sorted(Comparator.comparing(Class::getField)) 这种方式更简洁，直接指定要比较的字段
+    }
 
+    public List<LogEntry> filterByLevel(List<LogEntry> entries, String level)
+    {
+        return entries.stream()
+        .filter(entry -> entry.getLevel().equals(level))
+        .toList();
+    }
 }
