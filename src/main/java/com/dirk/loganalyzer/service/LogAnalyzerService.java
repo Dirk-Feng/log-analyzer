@@ -5,6 +5,8 @@ import com.dirk.loganalyzer.model.LogEntry;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 //业务服务层 service
@@ -17,7 +19,7 @@ public class LogAnalyzerService {
     }
 
     // 比countBylevel更通用的方法，可以统计任意level的数量, 而且在一次stream就处理好了所有的level
-    public Map<String, Long> countALlLevels(List<LogEntry> entries)
+    public Map<String, Long> countAllLevels(List<LogEntry> entries)
     {
         return entries.stream()
         .collect(Collectors.groupingBy(LogEntry::getLevel, Collectors.counting()));
@@ -46,6 +48,44 @@ public class LogAnalyzerService {
     {
         return entries.stream()
         .filter(entry -> entry.getLevel().equals(level))
+        .toList();
+    }
+
+    // 找出最早和最晚的日志条目，使用min和max方法，传入一个比较器
+    // 返回Optional是因为可能没有任何条目，避免返回null
+    public Optional<LogEntry> findEarliest(List<LogEntry> entries)
+    {
+        return entries.stream()
+        .min(Comparator.comparing(LogEntry::getTimestamp));
+    }
+
+    public Optional<LogEntry> findLatest(List<LogEntry> entries)
+    {
+        return entries.stream()
+        .max(Comparator.comparing(LogEntry::getTimestamp));
+    }
+
+    public Map<Integer, Long> countLogsByHour(List<LogEntry> entries)
+    {
+        return entries.stream()
+        .collect(Collectors.groupingBy(
+            entry -> entry.getTimestamp().getHour(),
+            Collectors.counting()
+        ));
+    }
+
+    public List<Map.Entry<String, Long>> topErrorMessages(List<LogEntry> entries, int n)
+    {
+        return entries.stream()
+        .filter(entry -> entry.getLevel().equals("ERROR"))
+        .collect(Collectors.groupingBy(
+            LogEntry::getMessage,
+            Collectors.counting()
+        ))
+        .entrySet()
+        .stream()
+        .sorted((e1, e2) -> Long.compare(e2.getValue(), e1.getValue()))
+        .limit(n)
         .toList();
     }
 }
