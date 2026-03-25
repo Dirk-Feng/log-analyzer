@@ -1,0 +1,23 @@
+2026-03-18 08:30:00 INFO Application started
+2026-03-18 08:31:12 WARN Disk space is running low
+2026-03-18 08:32:45 ERROR Database connection failed
+2026-03-18 08:33:10 INFO User login success userId=1001
+2026-03-18 08:35:00 ERROR
+2026-03-18 08:36:00 INFO User login success userId=1002
+2026-03-18 09:01:22 INFO User logout userId=1001
+2026-03-18 09:05:10 ERROR Timeout while calling payment service
+2026-03-18 09:10:45 WARN Memory usage is high
+2026-03-18 09:15:30 INFO Order created orderId=5001
+2026-03-18 09:18:12 ERROR Database connection failed
+2026-03-18 09:25:00 INFO Order paid orderId=5001
+2026-03-18 10:02:11 INFO User login success userId=1003
+2026-03-18 10:05:44 ERROR Disk write failure
+2026-03-18 10:15:09 WARN CPU usage is high
+2026-03-18 10:20:33 INFO User logout userId=1002
+2026-03-18 10:25:19 ERROR Timeout while calling payment service
+2026-03-18 10:40:00 INFO Application heartbeat
+bad data
+2026-03-18 INFO
+2026-03-18 11:01:00 INFO Daily report started
+2026-03-18 11:05:42 ERROR Database connection failed
+2026-03-18 11:20:10 INFO Daily report finished

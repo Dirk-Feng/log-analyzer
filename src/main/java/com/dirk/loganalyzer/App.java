@@ -68,3 +68,5 @@ public class App {
         }
     }
 }
+
+// mvn compile exec:java "-Dexec.mainClass=com.dirk.loganalyzer.App" "-Dexec.args=logs/sample.log stats"
